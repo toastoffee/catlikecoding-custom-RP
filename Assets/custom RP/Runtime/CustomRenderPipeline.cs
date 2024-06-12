@@ -4,9 +4,16 @@ using UnityEngine.Rendering;
 
 public class CustomRenderPipeline : RenderPipeline
 {
-    public CustomRenderPipeline () {
-        GraphicsSettings.useScriptableRenderPipelineBatching = true;
+    bool useDynamicBatching, useGPUInstancing;
+    
+    public CustomRenderPipeline (
+        bool useDynamicBatching, bool useGPUInstancing, bool useSRPBatcher
+    ) {
+        this.useDynamicBatching = useDynamicBatching;
+        this.useGPUInstancing = useGPUInstancing;
+        GraphicsSettings.useScriptableRenderPipelineBatching = useSRPBatcher;
     }
+
     
     private CameraRenderer renderer = new CameraRenderer();
     
@@ -16,7 +23,9 @@ public class CustomRenderPipeline : RenderPipeline
     {
         for (int i = 0; i < cameras.Count; i++)
         {
-            renderer.Render(context, cameras[i]);
+            renderer.Render(
+                context, cameras[i], useDynamicBatching, useGPUInstancing
+            );
         }
     }
 }

@@ -6,9 +6,13 @@ using UnityEngine.Rendering;
 public class CustomRenderPipelineAsset : RenderPipelineAsset 
 {
 
-    protected override RenderPipeline CreatePipeline()
-    {
-        return new CustomRenderPipeline();
+    [SerializeField]
+    bool useDynamicBatching = true, useGPUInstancing = true, useSRPBatcher = true;
+
+    protected override RenderPipeline CreatePipeline () {
+        return new CustomRenderPipeline(
+            useDynamicBatching, useGPUInstancing, useSRPBatcher
+        );
     }
     
     
